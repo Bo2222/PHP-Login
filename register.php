@@ -1,5 +1,6 @@
 <?php
-$servername = "localhost";
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "user";
@@ -8,26 +9,68 @@ $dbname = "user";
 
 if($conn->connect_error){
     dir("連接資料庫失敗: " . $conn->connect_error);
+    }
+
+$name1 = $conn->real_escape_string($_POST['name1']);
+$name2 = $conn->real_escape_string($_POST['name2']);
+$phone = $conn->real_escape_string($_POST['phone']);
+$mail = $conn->real_escape_string($_POST['mail']);
+$raw_password = $_POST['password'];
+$confirm_password = $_POST['confirm_password'];
+
+
+$email_parts = explode('@', $mail);
+$account = $conn->real_escape_string($email_parts[0]);
+
+$error_message = "";
+
+if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
+    $error_message .= "請輸入有效的郵箱地址。<br>";
 }
 
-$username = $conn->real_escape_string($_POST['username']);
-$password = $conn->real_escape_string($_POST['password']);
-
-//生成隨機的鹽值
-$salt = bin2hex(random_bytes(16));
-
-//將鹽值和密碼結合，使用雜湊函數計算雜湊值
-$hashed_password = hash('sha256', $password . $salt);
-
-$sql = "INSERT INTO users(username, hashed_password, salt) VALUES )'$username', '$hashed_password', '$salt')";
-
-if($conn->query($sql) === TRUE){
-    echo "註冊成功<br>";
-    echo '<button oneclick = "wondow.location.href=\'loginWeb.php\'">前往登入頁面</button>';
-}
-else{
-    echo "註冊失敗:" . $conn->error;
+if(strlen($raw_password) <= 5 || !preg_match("/^?=.[A-Za-z])(?=.*\d)", $raw_password)){
+    $error_message .= "密碼必須包含至少一個英文字母和一個數字，長度超過5。<br>";
 }
 
-$conn->close();
+if($raw_password !== $confirm_password){
+    $error_message = "確認密碼是否一致。<br>";
+}
+
+$account_check_query = "SELECT * FROM member WHERE account = '$account' LIMIT 1";
+$result = $conn->query($account_check_query);
+if($result && $result->num_rows > 0){
+    $error_message = "帳號已存在，請選擇另一個帳號。<br>";
+}
+
+if(!empty($error_message)){
+    echo '<button onclick = "goBack()">返回修改</button><br>';
+
+    echo '<script>
+        function go Back(){
+            window.history.back();
+        }   
+    </script>';
+}
+
+if(empty($error_message)){
+    $salt = random_bytes(16);
+
+    $hashedPassword = hash('sha256', $raw_password . $salt);
+
+    $sql = "INSERT INTO member (name1, name2, phone, mail, account, hashed_password, salt) VALUES ('$name1', '$name2', '$phone', '$mail', '$account', '$hashed_paassword', '$salt'";
+
+    if($conn->query($sql) === TRUE){
+        echo "註冊成功，您的帳號為" . $account;
+        echo '<button onclick = "window.location.href = \'loginWeb.php\'">錢網登入頁面</button>';
+    }
+    else{
+        echo "註冊失敗：" . $conn->error;
+    }
+}
+    else{
+        echo $error_message;
+    }
+
+    $conn->close();
+}
 ?>
