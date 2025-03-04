@@ -11,8 +11,8 @@ if($conn->connect_error){
     dir("連接資料庫失敗: " . $conn->connect_error);
     }
 
-$name1 = $conn->real_escape_string($_POST['name1']);
-$name2 = $conn->real_escape_string($_POST['name2']);
+$username = $conn->real_escape_string($_POST['username']);
+$nickname = $conn->real_escape_string($_POST['nickname']);
 $phone = $conn->real_escape_string($_POST['phone']);
 $mail = $conn->real_escape_string($_POST['mail']);
 $raw_password = $_POST['password'];
