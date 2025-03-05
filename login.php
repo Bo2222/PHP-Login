@@ -1,12 +1,17 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 include 'db_connect.php';
 
-$email = $conn->real_escape_string($_POST['email']);
-$password = $conn->real_escape_string($POST['password']);
+$account = $conn->real_escape_string($_POST['account'] ?? '');
+$password = $conn->real_escape_string($_POST['password'] ?? '');
 
-$sql = "SELECT * FROM member WHERE email = 'email'";
+$sql = "SELECT * FROM member WHERE account = '$account'";
 $result = $conn->query($sql);
 
 if($result->num_rows == 1){

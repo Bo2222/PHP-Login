@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 if(!isset($_SESSION['user_id'])){
@@ -8,13 +13,13 @@ if(!isset($_SESSION['user_id'])){
 
 $userId = $_SESSION['user_id'];
 include 'db_connect.php';
-$sql = "SELECT * FROm member WHERE id = '$userId";
+$sql = "SELECT * FROM member WHERE id = '$userId'";
 $result = $conn->query($sql);
 
 if($result->num_rows == 1){
     $row = $result->fetch_assoc();
     $username = $row['username'];
-    $email = $row['email'];
+    $email = $row['mail'];
     $phone = $row['phone'];
 
     echo "歡迎回來，$username<br>";
