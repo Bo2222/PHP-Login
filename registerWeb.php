@@ -20,5 +20,8 @@
 
         <input type = "submit" value = "提交">
     </form>
+    <a href = "loginWeb.php">
+            <button>已有帳號，去登入</button>
+        </a>
 </body>
 </html>
