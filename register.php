@@ -57,15 +57,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
     }
 
     if(empty($error_message)){
-        $salt = bin2hex(random_bytes(16));                                       //生成16位元的salt，用來提高密碼安全性
+
+        if(empty($raw_password)){
+            echo"密碼不能為空值";
+            exit;
+        }
+
+        $salt = bin2hex(random_bytes(16));      //生成16位元的salt，用來提高密碼安全性
+
+        //var_dump($raw_password);
+        //var_dump($salt);
 
         $hashedPassword = hash('sha256', $raw_password . $salt);        //使用sha256雜湊加密密碼
+
+        if(empty($hashedPassword)){
+            echo "密碼加密失敗";
+            exit;
+        }
 
         //$sql = "INSERT INTO member (username, nickname, phone, mail, account, hashed_password, salt) VALUES ('$username', '$nickname', '$phone', '$mail', '$account', '$hashedPassword', '$salt')";
         //將用戶的資料儲存到member資料表中
         
         $stmt = $conn->prepare("INSERT INTO member(account, username, nickname, phone, mail, hashed_password, salt) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssss", $account, $username, $nickname, $phone, $mail, $hashed_password, $salt);
+        $stmt->bind_param("sssssss", $account, $username, $nickname, $phone, $mail, $hashedPassword, $salt);
 
         if($stmt->execute()){
             echo "註冊成功，您的帳號為" . $account;
