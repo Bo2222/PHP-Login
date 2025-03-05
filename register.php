@@ -4,16 +4,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處理表單提交的數據
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "user";
+    session_start();
 
-    $conn = new mysqli($servername, $username, $password, $dbname);     //連接MySQL資料庫，使用mysqli物件
-
-    if($conn->connect_error){
-        die("連接資料庫失敗: " . $conn->connect_error);                    //如果連線失敗，終止程式並輸出錯誤訊息
-    }
+    include 'db_connect.php';
 
     $username = $conn->real_escape_string($_POST['username'] ?? '');          //使用real_escape_string()避免SQL注入攻擊
     $nickname = $conn->real_escape_string($_POST['nickname'] ?? '');
