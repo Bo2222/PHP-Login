@@ -23,8 +23,10 @@ if($result->num_rows == 1){
     $phone = $row['phone'];
 
     echo "歡迎回來，$username<br>";
-    echo "郵箱地址：$email";
-    echo "電話號碼：$phone";
+    echo "郵箱地址：$email<br>";
+    echo "電話號碼：$phone<br>";
+
+    header("refresh:5;url = index.php");
 }
 else{
     echo "無法獲取用戶信息。";
