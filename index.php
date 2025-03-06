@@ -19,16 +19,14 @@
             color: white;
             text-decoration: none;
         }
+        .user-greeting {
+            color: white;
+            margin-right: 20px;
+        }
     </style>
 </head>
 <body>
     <h2>網頁導覽</h2>
-    <!--<ul>
-        <li><a href="loginWeb.php">登入會員</a></li>
-        <li><a href="registerWeb.php">註冊會員</a></li>
-        <li><a href="orderWeb.php">預約項目</a></li>
-        <li><a href="orderView.php">訂單瀏覽</a></li>
-    </ul>-->
     <nav>
         <ul>
             <li><a href="index.php">首頁</a></li>
