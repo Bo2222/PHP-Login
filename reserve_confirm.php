@@ -22,10 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $date = $_POST['date'];
             $time = $_POST['time'];
 
-            //
+            //當下的日期時間
             $created_at = date('Y-m-d H:i:s');
 
-            //
+            //將預約的資料存入資料庫appointments資料表
             $stmt = $conn->prepare("INSERT INTO appointments(type, account, name, phone, email, date, time, created_at, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("sssssssss", $type, $account, $name, $phone, $email, $date, $time, $datetime, $created_at, $status);
 
