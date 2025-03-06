@@ -60,6 +60,12 @@
     else{
         echo "請先<a href = 'loginWeb.php'>登入</a>";
     }
+
+    echo "<br>";
+    echo "<br>";
+    echo "<a href = 'orderWeb.php'>
+            <button>新增訂單</button>
+        </a>";
     ?>
 </body>
 </html>

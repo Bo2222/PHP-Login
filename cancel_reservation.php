@@ -15,5 +15,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['order_id'])){
     }
 }
 
+echo "<br>";
+echo "<br>";
+echo "<a href = 'orderView.php'>
+        <button>查看我的預約訂單</button>
+    </a>";
+
 $conn->close();
 ?>
