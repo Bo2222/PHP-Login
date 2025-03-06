@@ -1,6 +1,12 @@
 <?php
 session_start(); // 啟動 Session
 
+// 如果使用者未登入，則顯示註冊提示
+if (!isset($_SESSION['user_id'])) {
+    echo "<script>alert('請先註冊會員'); window.location.href = 'index.php';</script>";
+    exit();
+}
+
 // 清除所有 Session 變數
 $_SESSION = array();
 
