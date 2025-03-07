@@ -21,12 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $account = $userInfo['account'];
 
             //從POST請求中獲取預約資料
-            $type = $_POST['type'];
-            $name = $_POST['name'];
-            $phone = $_POST['phone'];
-            $email = $_POST['email'];
-            $date = $_POST['date'];
-            $time = $_POST['time'];
+            $type = $conn->real_escape_string($_POST['type'] ?? '');
+            $name = $conn->real_escape_string($_POST['name'] ?? '');
+            $phone = $conn->real_escape_string($_POST['phone'] ?? '');
+            $email = $conn->real_escape_string($_POST['email'] ?? '');
+            $date = $conn->real_escape_string($_POST['date'] ?? '');
+            $time = $conn->real_escape_string($_POST['time'] ?? '');
 
             //當下的日期時間
             $created_at = date('Y-m-d H:i:s');

@@ -33,6 +33,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
         $error_message = "確認密碼是否一致。<br>";
     }
 
+    if(empty($raw_password)){
+        $error_message = "密碼不能為空。<br>";
+    }
+
     $account_check_query = "SELECT * FROM member WHERE account = '$account' LIMIT 1";       //查詢資料庫，檢查account是否已經存在
     $result = $conn->query($account_check_query);
     if($result && $result->num_rows > 0){
@@ -51,10 +55,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
 
     if(empty($error_message)){
 
-        if(empty($raw_password)){
+        /*if(empty($raw_password)){
             echo"密碼不能為空值";
             exit;
-        }
+        }*/
 
         $salt = bin2hex(random_bytes(16));      //生成16位元的salt，用來提高密碼安全性
 
@@ -63,10 +67,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
 
         $hashedPassword = hash('sha256', $raw_password . $salt);        //使用sha256雜湊加密密碼
 
-        if(empty($hashedPassword)){
+        /*if(empty($hashedPassword)){
             echo "密碼加密失敗";
             exit;
-        }
+        }*/
 
         //$sql = "INSERT INTO member (username, nickname, phone, mail, account, hashed_password, salt) VALUES ('$username', '$nickname', '$phone', '$mail', '$account', '$hashedPassword', '$salt')";
         //將用戶的資料儲存到member資料表中
