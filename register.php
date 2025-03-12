@@ -12,6 +12,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
     $nickname = $conn->real_escape_string($_POST['nickname'] ?? '');
     $phone = $conn->real_escape_string($_POST['phone'] ?? '');
     $mail = $conn->real_escape_string($_POST['mail'] ?? '');
+    $address = $conn->real_escape_string($_POST['address'] ?? '');
     $raw_password = $_POST['password'] ?? '';                                 //密碼直接從$_POST獲得，未進行escape，之後要進行加密
     $confirm_password = $_POST['confirm_password'] ?? '';
 
@@ -75,8 +76,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
         //$sql = "INSERT INTO member (username, nickname, phone, mail, account, hashed_password, salt) VALUES ('$username', '$nickname', '$phone', '$mail', '$account', '$hashedPassword', '$salt')";
         //將用戶的資料儲存到member資料表中
         
-        $stmt = $conn->prepare("INSERT INTO member(account, username, nickname, phone, mail, hashed_password, salt) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssss", $account, $username, $nickname, $phone, $mail, $hashedPassword, $salt);
+        $stmt = $conn->prepare("INSERT INTO member(account, username, nickname, phone, mail, address, hashed_password, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssss", $account, $username, $nickname, $phone, $mail, $address, $hashedPassword, $salt);
 
         if($stmt->execute()){
             echo "註冊成功，您的帳號為" . $account;

@@ -1,6 +1,13 @@
 <html>
 <head>
     <title>註冊會員</title>
+<style>
+    input {
+  min-width: 100px;
+  max-width: 300px;
+  width: 50%;
+}
+</style>
 </head>
 <body>
     <h2>註冊會員</h2>
@@ -13,11 +20,13 @@
         <input type = "text" name = "phone"><br>
         <label>信箱：</label>
         <input type = "email" name = "mail" required><br>
+        <label>地址：</label>
+        <input type = 'address' name = 'addess' required><br>
         <label>密碼：</label>
         <input type = "password" name = "password" required placeholder = "至少一個英文字母和一個數字，長度超過5"><br>
         <label>確認密碼：</label>
         <input type = "password" name = "confirm_password" required><br>
-
+        <br>
         <input type = "submit" value = "提交">
     </form>
     <a href = "loginWeb.php">
