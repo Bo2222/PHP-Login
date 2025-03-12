@@ -5,6 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
+include 'db_connect.php';
 
 if(!isset($_SESSION['user_id'])){
     header("Location:loginWeb.php");
@@ -12,7 +13,7 @@ if(!isset($_SESSION['user_id'])){
 }
 
 $userId = $_SESSION['user_id'];
-include 'db_connect.php';
+
 $sql = "SELECT * FROM member WHERE id = '$userId'";
 $result = $conn->query($sql);
 
