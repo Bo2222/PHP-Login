@@ -8,11 +8,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
 
     include 'db_connect.php';
 
-    $username = $conn->real_escape_string($_POST['username'] ?? '');          //使用real_escape_string()避免SQL注入攻擊
-    $nickname = $conn->real_escape_string($_POST['nickname'] ?? '');
-    $phone = $conn->real_escape_string($_POST['phone'] ?? '');
-    $mail = $conn->real_escape_string($_POST['mail'] ?? '');
-    $address = $conn->real_escape_string($_POST['address'] ?? '');
+    $username = $conn->real_escape_string(trim($_POST['username'] ?? ''));          //使用real_escape_string()避免SQL注入攻擊
+    $nickname = $conn->real_escape_string(trim($_POST['nickname'] ?? ''));
+    $phone = $conn->real_escape_string(trim($_POST['phone'] ?? ''));
+    $mail = $conn->real_escape_string(trim($_POST['mail'] ?? ''));
+    $address = $conn->real_escape_string(trim($_POST['address'] ?? ''));
     $raw_password = $_POST['password'] ?? '';                                 //密碼直接從$_POST獲得，未進行escape，之後要進行加密
     $confirm_password = $_POST['confirm_password'] ?? '';
 
