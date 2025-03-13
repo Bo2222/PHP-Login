@@ -34,10 +34,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
         }
         else{
             echo "密碼錯誤，請重新嘗試。";
+            header("refresh:3;url = loginWeb.php");
+            exit();
             }
     }
         else{
             echo "帳號不存在，請註冊帳號。";
+            header("refresh:3;url = registerWeb.php");
+            exit();
         }
         
     $conn->close();

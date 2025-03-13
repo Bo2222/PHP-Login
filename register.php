@@ -80,8 +80,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
         $stmt->bind_param("ssssssss", $account, $username, $nickname, $phone, $mail, $address, $hashedPassword, $salt);
 
         if($stmt->execute()){
-            echo "註冊成功，您的帳號為" . $account;
-                echo '<button onclick = "window.location.href = \'loginWeb.php\'">前往登入頁面</button>';       //註冊成功就顯示按鈕讓用戶前往登入頁面
+            echo "註冊成功，您的帳號為" . $account . "<br>";
+            echo "將在3秒後跳轉到登入頁面。";
+            header("refresh:3;url = loginWeb.php");
+            exit();
         }
         else{
             echo "註冊失敗：" . $stmt->error;
