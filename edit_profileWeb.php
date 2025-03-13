@@ -12,7 +12,7 @@
 <h2>會員資料修改</h2>
 <form id="profileForm">
     <label>使用者名稱：</label>
-    <input type="text" name="username" value="<?php echo $_SESSION['username']; ?>" required><br>
+    <input type="text" name="username" value="<?php echo $_SESSION['username']; ?>"><br>
 
     <label>暱稱：</label>
     <input type="text" name="nickname" value="<?php echo $_SESSION['nickname']; ?>" ><br>
