@@ -21,7 +21,7 @@
         <label>信箱：</label>
         <input type = "email" name = "mail" required><br>
         <label>地址：</label>
-        <input type = 'address' name = 'addess' required><br>
+        <input type = 'address' name = 'address' required><br>
         <label>密碼：</label>
         <input type = "password" name = "password" required placeholder = "至少一個英文字母和一個數字，長度超過5"><br>
         <label>確認密碼：</label>
