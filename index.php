@@ -32,6 +32,7 @@
             <li><a href="index.php">首頁</a></li>
             <li><a href = "registerWeb.php">註冊會員</a></li>
             <li><a href="loginWeb.php">登入會員</a></li>
+            <li><a href="edit_profileWeb.php">編輯會員資料</a></li>
             <li><a href="logout.php">登出會員</a></li>
             <li><a href="orderWeb.php">預約項目</a></li>
             <li><a href="orderview.php">訂單瀏覽</a></li>
