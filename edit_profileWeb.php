@@ -3,7 +3,7 @@
 session_start(); 
 
 if (!isset($_SESSION['user_id'])) {
-    echo "<script>alert('請先登入會員'); window.location.href = 'index.php';</script>";
+    echo "<script>alert('請先登入會員'); window.location.href = 'loginWeb.php';</script>";
     exit();
 }
 ?>

@@ -98,7 +98,7 @@
                 </a>";
         }
         else{
-            echo "請先<a href =  'loginWeb.php'>登入</a>";
+            echo "<script>alert('請先登入會員'); window.location.href = 'loginWeb.php';</script>";
         }
     ?>
 </body>
