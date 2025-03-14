@@ -10,7 +10,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $error_message = "";
 
-    if (!empty($_POST['new_password'])) {
+    if (!empty($_POST['old_password'])) {
        
         // 取得目前密碼與 salt
         $stmt = $conn->prepare("SELECT hashed_password, salt FROM member WHERE id = '$userId'");
@@ -22,23 +22,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         // 驗證舊密碼
         if (hash('sha256', $old_password . $salt) !== $hashed_password) {
-            $error_message = "舊密碼錯誤";
+            $error_message = "舊密碼錯誤。<br>";
         }
-    
+        //驗證新密碼和舊密碼是否相同
         if($old_password === $new_password){
             $error_message = "新密碼不能與舊密碼一致。<br>";
         }
-    }
-
-    if(!empty($error_message)){                                         //若有錯誤就顯示返回按鈕，透過javascript返回上一頁
-        echo '<button onclick = "goBack()">返回修改</button><br>';
-
-        echo '<script>
-            function goBack(){
-               window.history.back();
-        }   
-        </script>';
-    }
+        //驗證新密碼欄位是否為空
+        if(!empty($new_password)){
+            $error_message = "新密碼欄位不能為空。<br>";
+        }
+    }       
+    else{
+        $error_message = "舊密碼欄位不能為空。<br>";
+    }                                
 
     if(empty($error_message)){
         if(!empty($new_password) && !empty($old_password)){
@@ -50,15 +47,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt = $conn->prepare("UPDATE member SET hashed_password = ?, salt = ? WHERE id = '$userId'");
             $stmt->bind_param("ss", $new_hashed_password, $new_salt);
             if ($stmt->execute()) {
-                echo "密碼更新成功。<br>";
+                echo "密碼更新成功，將為您跳轉回首頁。<br>";
+                header("refresh:3;url = index.php");
             }
-            else{
-                echo "密碼更新失敗。<br>";
-            }
+            //else{
+                //echo "密碼更新失敗。<br>";
+            //}
         }
     }
     else{
         echo $error_message;
+        echo '<button onclick = "goBack()">返回修改</button><br>';              //若有錯誤就顯示返回按鈕，透過javascript返回上一頁
+
+        echo '<script>
+            function goBack(){
+               window.history.back();
+        }   
+        </script>';
     }
     $conn->close();
 }
