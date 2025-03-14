@@ -3,9 +3,9 @@
 <head>
     <meta charset = "UTF-8">
     <meta name =  "viewport" content = "width = device-width, initial-scale = 1.0">
-    <tile>
+    <title>
         預約體驗
-    </tile>
+    </title>
     <style>
         nav {
             background-color: #333;
@@ -32,7 +32,6 @@
         position: relative;
         display: inline-block;
         }
-
         .dropdown-content {
             display: none;
             position: absolute;
@@ -121,6 +120,7 @@
         echo "<input type = 'date' id = 'date' name = 'date' required><br>";
         echo "<label for = 'time'>預約時間：</label>";
         echo "<input type = 'time' id = 'time' name = 'time' required><br>";
+        echo "<br>";
         echo "<button type = 'submit'>下一步</button>";
         echo "</form>";
         

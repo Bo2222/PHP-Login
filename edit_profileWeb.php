@@ -108,6 +108,7 @@ if (!isset($_SESSION['user_id'])) {
         <textarea name="address"></textarea><br>
 
         <!--<input type="hidden" name="csrf_token" value="<?php //echo $_SESSION['csrf_token'] = bin2hex(random_bytes(16)); ?>">-->
+        <br>
 
         <button type="submit">更新資料</button>
     </form>
