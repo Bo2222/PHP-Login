@@ -75,22 +75,22 @@ if (!isset($_SESSION['user_id'])) {
 
     <h2>會員資料修改</h2>
     <nav>
-            <ul>
-                <li><a href="index.php">首頁</a></li>
-                <li><a href = "registerWeb.php">註冊會員</a></li>
-                <li><a href="loginWeb.php">登入會員</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">修改資料</a>
-                    <div class="dropdown-content">
-                        <a href="edit_profileWeb.php">修改基本資料</a>
-                        <a href="edit_passwordWeb.php">修改密碼</a>
-                    </div>
-                </li>
-                <li><a href="logout.php">登出會員</a></li>
-                <li><a href="orderWeb.php">預約項目</a></li>
-                <li><a href="orderview.php">訂單瀏覽</a></li>
-            </ul>
-        </nav>
+        <ul>
+            <li><a href="index.php">首頁</a></li>
+            <li><a href = "registerWeb.php">註冊會員</a></li>
+            <li><a href="loginWeb.php">登入會員</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">修改資料</a>
+                <div class="dropdown-content">
+                    <a href="edit_profileWeb.php">修改基本資料</a>
+                    <a href="edit_passwordWeb.php">修改密碼</a>
+                </div>
+            </li>
+            <li><a href="logout.php">登出會員</a></li>
+            <li><a href="orderWeb.php">預約項目</a></li>
+            <li><a href="orderview.php">訂單瀏覽</a></li>
+        </ul>
+    </nav>
     <form action = "edit_profile.php" method = "POST" id="profileForm">
         <label>使用者名稱：</label>
         <input type="text" name="username"><br>
