@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    include 'db_connect.php';
+    include 'user_info.php';
+?>
+
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -82,10 +88,6 @@
         </ul>
     </nav>
     <?php
-    session_start();
-    include 'db_connect.php';
-    include 'user_info.php';
-
     if(isset($_SESSION['user_id'])){
         $user_id = $_SESSION['user_id'];
         //使用userInfo.php中的函數獲取使用者資訊
@@ -133,12 +135,6 @@
     else{
         echo "<script>alert('請先登入會員'); window.location.href = 'loginWeb.php';</script>";
     }
-
-    echo "<br>";
-    echo "<br>";
-    echo "<a href = 'orderWeb.php'>
-            <button>新增訂單</button>
-        </a>";
     ?>
 </body>
 </html>

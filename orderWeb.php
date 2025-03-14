@@ -1,3 +1,8 @@
+<?php
+         session_start();
+         include 'db_connect.php';
+         include 'user_info.php';
+?>
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -5,10 +10,6 @@
     <meta name="viewport" content = "width=device-width, initial-scale = 1.0">
     <title>選擇預約項目</title>
     <?php
-         session_start();
-         include 'db_connect.php';
-         include 'user_info.php';
- 
          if (isset($_SESSION['user_id'])){
              $user_id = $_SESSION['user_id'];
              $greeting = getGreeting($user_id, $conn);
@@ -96,9 +97,5 @@
     </nav>
             <a href = 'reserveWeb.php?type=VR體驗'>預約體驗VR</a><br>
             <a href = 'reserveWeb.php?type=治療師諮詢'>預約治療師諮詢</a><br>
-            <br>
-            <a href = 'orderView.php'>
-                <button>前往查看我的訂單</button>
-            </a>
 </body>
 </html>

@@ -1,3 +1,31 @@
+<?php
+    session_start();
+    include 'db_connect.php';
+    include 'user_info.php';
+
+    if (isset($_SESSION['user_id'])){
+        $type = $_GET['type'];                      //取得選擇的預約類型
+        $user_id = $_SESSION['user_id'];
+        $greeting = getGreeting($user_id, $conn);
+    }
+    else{
+        echo "<script>alert('請先登入會員'); window.location.href = 'loginWeb.php';</script>";
+    }
+
+    //獲取會員資料
+    $userInfo = getUserInfo($user_id, $conn);
+
+    if ($type === 'VR體驗'){
+        $typeText = 'VR體驗';
+    }
+    elseif($type ==='治療師諮詢'){
+        $typeText = '治療師諮詢';
+    }
+    else{
+        echo "無效的預約類型";
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -6,6 +34,9 @@
     <title>
         預約體驗
     </title>
+    <?php
+        echo "<h2>{$greeting} 您好，歡迎預約 {$typeText}</h2>";
+    ?>
     <style>
         nav {
             background-color: #333;
@@ -81,30 +112,6 @@
         </ul>
     </nav>
     <?php
-    session_start();
-    include 'db_connect.php';
-    include 'user_info.php';
-
-    if (isset($_SESSION['user_id'])){
-        $type = $_GET['type'];                      //取得選擇的預約類型
-        $user_id = $_SESSION['user_id'];
-        $greeting = getGreeting($user_id, $conn);
-
-        //獲取會員資料
-        $userInfo = getUserInfo($user_id, $conn);
-
-        if ($type === 'VR體驗'){
-            $typeText = 'VR體驗';
-        }
-        elseif($type ==='治療師諮詢'){
-            $typeText = '治療師諮詢';
-        }
-        else{
-            echo "無效的預約類型";
-            exit();
-        }
-
-        echo "<h2>{$greeting} 您好，歡迎預約 {$typeText}</h2>";
         echo "<form action = 'reserve_confirm.php' method = 'post'>";
         echo "<input type = 'hidden' name = 'type' value = '$type'>";
 
@@ -123,11 +130,6 @@
         echo "<br>";
         echo "<button type = 'submit'>下一步</button>";
         echo "</form>";
-        
-    }
-    else{
-        echo "<script>alert('請先登入會員'); window.location.href = 'loginWeb.php';</script>";
-    }
     ?>
 </body>
 </html>
