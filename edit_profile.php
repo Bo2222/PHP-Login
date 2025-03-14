@@ -32,8 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
     $mail = $conn->real_escape_string(trim($_POST['mail'] ?? ''));
     $address = $conn->real_escape_string(trim($_POST['address'] ?? ''));
 
-    $old_password = $_POST['old_password'] ?? '';
-    $new_password = $_POST['new_password']?? '';
+    
 
     $error_message = "";
 
@@ -63,26 +62,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
 
     if(empty($_POST['address'])){
         $error_message = "地址不能為空。<br>";
-    }
-
-    if (!empty($_POST['new_password'])) {
-       
-        // 取得目前密碼與 salt
-        $stmt = $conn->prepare("SELECT hashed_password, salt FROM member WHERE id = '$userId'");
-        //$stmt->bind_param("i", $user_id);
-        $stmt->execute();
-        $stmt->bind_result($hashed_password, $salt);
-        $stmt->fetch();
-        $stmt->close();
-
-        // 驗證舊密碼
-        if (hash('sha256', $old_password . $salt) !== $hashed_password) {
-            $error_message = "舊密碼錯誤";
-        }
-    
-        if($old_password === $new_password){
-            $error_message = "新密碼不能與舊密碼一致。<br>";
-        }
     }
     
 
@@ -129,22 +108,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
         else{
             echo "更新失敗。<br>";
         }
-        if(!empty($new_password) && !empty($old_password)){
-            // 生成新 salt & 密碼雜湊
-            $new_salt = bin2hex(random_bytes(16));
-            $new_hashed_password = hash('sha256', $new_password . $new_salt);
-    
-            // 更新新密碼與 salt
-            $stmt = $conn->prepare("UPDATE member SET hashed_password = ?, salt = ? WHERE id = '$userId'");
-            $stmt->bind_param("ss", $new_hashed_password, $new_salt);
-            if ($stmt->execute()) {
-                echo "密碼更新成功。<br>";
-            }
-            else{
-                echo "密碼更新失敗。<br>";
-            }
-        }
-        
     }
     else{
         echo $error_message;
