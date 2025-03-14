@@ -6,7 +6,7 @@ $userId = $_SESSION['user_id'];
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){  
     $old_password = $_POST['old_password'] ?? '';
-    $new_password = $_POST['new_password']?? '';
+    $new_password = $_POST['new_password'] ?? '';
 
     $error_message = "";
 
@@ -29,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $error_message = "新密碼不能與舊密碼一致。<br>";
         }
         //驗證新密碼欄位是否為空
-        if(!empty($new_password)){
+        if(empty($new_password)){
             $error_message = "新密碼欄位不能為空。<br>";
         }
     }       
