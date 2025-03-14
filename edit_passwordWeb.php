@@ -90,6 +90,7 @@ if (!isset($_SESSION['user_id'])) {
             <input type="password" name="old_password"><br>
             <label>新密碼：</label>
             <input type="password" name="new_password"><br>
+            <br>
             <button type="submit">更新密碼</button>
         </form>
     </body>

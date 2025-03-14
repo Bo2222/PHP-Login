@@ -80,10 +80,8 @@
     <form action = "login.php" method = "POST">
     帳號：<input type = "text" name = "account"><br>
     密碼：<input type = "password" name = "password"><br>
+    <br>
     <input type = "submit" value = "登入">
     </form>
-    <a href = "registerWeb.php">
-        <button>按我去註冊帳號</button>
-    </a>
 </body>
 </html>
