@@ -2,7 +2,7 @@
 session_start();
 include "db_connect.php";
 
-$userId = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){  
     $old_password = $_POST['old_password'] ?? '';
@@ -13,7 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if (!empty($_POST['old_password'])) {
        
         // 取得目前密碼與 salt
-        $stmt = $conn->prepare("SELECT hashed_password, salt FROM member WHERE id = '$userId'");
+        $stmt = $conn->prepare("SELECT hashed_password, salt FROM member WHERE id = '$user_id'");
         //$stmt->bind_param("i", $user_id);
         $stmt->execute();
         $stmt->bind_result($hashed_password, $salt);
@@ -44,7 +44,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $new_hashed_password = hash('sha256', $new_password . $new_salt);
     
             // 更新新密碼與 salt
-            $stmt = $conn->prepare("UPDATE member SET hashed_password = ?, salt = ? WHERE id = '$userId'");
+            $stmt = $conn->prepare("UPDATE member SET hashed_password = ?, salt = ? WHERE id = '$user_id'");
             $stmt->bind_param("ss", $new_hashed_password, $new_salt);
             if ($stmt->execute()) {
                 echo "密碼更新成功，將為您跳轉回首頁。<br>";

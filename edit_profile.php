@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 session_start();
 include 'db_connect.php';
 
-$userId = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處理表單提交的數據
     // 準備更新欄位
@@ -97,7 +97,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
     }
 
     if(empty($error_message)){
-        $stmt = $conn-> prepare("UPDATE member SET username = ?, nickname = ?, phone = ?, mail = ?, address =? WHERE id = '$userId'");
+        $stmt = $conn-> prepare("UPDATE member SET username = ?, nickname = ?, phone = ?, mail = ?, address =? WHERE id = '$user_id'");
         $stmt->bind_param("sssss", $username, $nickname, $phone, $mail, $address);
 
         if($stmt->execute()){
