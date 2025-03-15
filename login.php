@@ -9,8 +9,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
 
     include 'db_connect.php';
 
-    $account = $conn->real_escape_string($_POST['account'] ?? '');
-    $password = $conn->real_escape_string($_POST['password'] ?? '');
+    $account = $conn->real_escape_string(trim($_POST['account'] ?? ''));
+    $password = $conn->real_escape_string(trim($_POST['password'] ?? ''));
 
     $sql = "SELECT * FROM member WHERE account = '$account'";
     $result = $conn->query($sql);
