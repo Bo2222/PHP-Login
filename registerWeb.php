@@ -1,3 +1,12 @@
+<?php 
+session_start(); 
+
+if (isset($_SESSION['user_id'])) {
+    echo "<script>alert('您已登入，無需註冊會員。'); window.location.href = 'index.php';</script>";
+    exit();
+}
+?>
+
 <html>
 <head>
     <title>註冊會員</title>
@@ -68,6 +77,7 @@ nav {
     <nav>
         <ul>
             <li><a href="index.php">首頁</a></li>
+            <li><a href="adminWeb.php">管理者系統</a></li>
             <li><a href = "registerWeb.php">註冊會員</a></li>
             <li><a href="loginWeb.php">登入會員</a></li>
             <li class="dropdown">
@@ -100,8 +110,5 @@ nav {
         <br>
         <input type = "submit" value = "提交">
     </form>
-    <a href = "loginWeb.php">
-            <button>已有帳號，去登入</button>
-        </a>
 </body>
 </html>

@@ -75,6 +75,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
 
         //$sql = "INSERT INTO member (username, nickname, phone, mail, account, hashed_password, salt) VALUES ('$username', '$nickname', '$phone', '$mail', '$account', '$hashedPassword', '$salt')";
         //將用戶的資料儲存到member資料表中
+    
+        // 清空 session，避免因為先前登入或已登入的 session 影響
+        session_unset(); // 清除所有 session 資料
+        session_destroy(); // 結束 session
+
+        /*if (session_status() == PHP_SESSION_NONE) {
+            echo "Session 清除成功！<br>";
+        }
+        else{
+            echo "繼續debug吧你。<br>";
+        }*/
         
         $stmt = $conn->prepare("INSERT INTO member(account, username, nickname, phone, mail, address, hashed_password, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssssss", $account, $username, $nickname, $phone, $mail, $address, $hashedPassword, $salt);
