@@ -1,3 +1,12 @@
+<?php 
+session_start(); 
+
+if (isset($_SESSION['user_id'])) {
+    echo "<script>alert('您已登入。'); window.location.href = 'index.php';</script>";
+    exit();
+}
+?>
+
 <html>
 <head>
     <title>登入頁面</title>
@@ -63,6 +72,7 @@
     <nav>
         <ul>
             <li><a href="index.php">首頁</a></li>
+            <li><a href="adminWeb.php">管理者系統</a></li>
             <li><a href = "registerWeb.php">註冊會員</a></li>
             <li><a href="loginWeb.php">登入會員</a></li>
             <li class="dropdown">
