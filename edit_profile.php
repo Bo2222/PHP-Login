@@ -101,7 +101,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
         $stmt->bind_param("sssss", $username, $nickname, $phone, $mail, $address);
 
         if($stmt->execute()){
-            echo "更新成功。將脆你跳轉到首頁。<br>";
+            echo "更新成功。將為您跳轉到首頁。<br>";
             header("refresh:3;url = index.php");
             exit();
         }

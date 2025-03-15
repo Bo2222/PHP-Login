@@ -23,7 +23,7 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // 跳轉到登入頁面
-echo "成功登出，稍等5秒回到首頁。";
-header("refresh:5;url = index.php");
+echo "成功登出，稍等3秒回到首頁。";
+header("refresh:3;url = index.php");
 exit();
 ?>

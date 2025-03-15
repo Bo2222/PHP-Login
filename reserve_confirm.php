@@ -36,8 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->bind_param("ssssssss", $type, $account, $name, $phone, $email, $date, $time, $created_at);
 
             if($stmt->execute()){
-                echo "預約成功，5秒後跳轉至預約首頁";
-                header("refresh:5;url = orderWeb.php");
+                echo "預約成功，3秒後跳轉至預約首頁";
+                header("refresh:3;url = orderWeb.php");
             }
             else{
                 echo "預約失敗：" . $conn->error;
