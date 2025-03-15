@@ -73,6 +73,7 @@
     <nav>
         <ul>
             <li><a href="index.php">首頁</a></li>
+            <li><a href="adminWeb.php">管理者系統</a></li>
             <li><a href = "registerWeb.php">註冊會員</a></li>
             <li><a href="loginWeb.php">登入會員</a></li>
             <li class="dropdown">
@@ -96,33 +97,38 @@
 
         //檢查篩選狀態
         $filter = "";
-        if(isset($_GET['status'])){
+        if(isset($_GET['status']) && $_GET['status'] != ""){
             $status = $_GET['status'];
             $filter = "AND status = '$status'";
         }
 
         //查詢預約資訊
-        $sql = "SELECT order_id, type, date, time, name, phone, status FROM appointments WHERE account = '$account' $filter ORDER BY date DESC, time DESC";
+        $sql = "SELECT order_id, type, date, time, name, phone, status FROM appointments WHERE account = '$account' $filter ORDER BY date ASC, time ASC";
         $result = $conn->query($sql);
 
         echo "<h2>我的訂單</h2>";
-        echo "<p><a href = 'orderView.php'>全部</a> |<a href = 'orderView.php?status = 未完成'>未完成</a> | <a href = 'orderView.php?status = 已完成'>已完成</a></p>";
+        echo "<p><a href = 'orderView.php'>全部</a> |<a href = 'orderView.php?status=未完成'>未完成</a> | <a href = 'orderView.php?status=已完成'>已完成</a></p>";
 
-        if ($result->num_rows >0 ){
+        if ($result->num_rows > 0){
             while ($row = $result->fetch_assoc()){
                 echo "<div>";
-                echo "<p>訂單編號：". $row['order_id'] . "</p>";
-                echo "<p>預約類型：". $row['type'] . "</p>";
-                echo "<p>預約日期：". $row['date'] . "</p>";
-                echo "<p>預約時間：". $row['time'] . "</p>";
-                echo "<p>預約姓名：". $row['name'] . "</p>";
-                echo "<p>預約電話：". $row['phone'] . "</p>";
+                echo "<p><strong>訂單編號：</strong>". $row['order_id'] . "</p>";
+                echo "<p><strong>預約類型：</strong>". $row['type'] . "</p>";
+                echo "<p><strong>預約日期：</strong>". $row['date'] . "</p>";
+                echo "<p><strong>預約時間：</strong>". $row['time'] . "</p>";
+                echo "<p><strong>預約姓名：</strong>". $row['name'] . "</p>";
+                echo "<p><strong>預約電話：</strong>". $row['phone'] . "</p>";
 
+                //對未完成的預約顯示取消預約按鈕
                 if($row['status'] === '未完成'){
+                    echo "<p style = 'color:red'><strong>狀態：</strong>未完成</p>";
                     echo "<form action = 'cancel_reservation.php' method = 'post'>";
                     echo "<input type = 'hidden' name = 'order_id' value = '" . $row['order_id'] . "'>";
                     echo "<button type = 'submit'>取消預約</button>";
                     echo "</form>";
+                }
+                else{
+                    echo "<p style = 'color:green'><strong>狀態：</strong>已完成</p>";
                 }
 
                 echo "</div>";

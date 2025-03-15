@@ -77,6 +77,7 @@ if (!isset($_SESSION['user_id'])) {
     <nav>
         <ul>
             <li><a href="index.php">首頁</a></li>
+            <li><a href="adminWeb.php">管理者系統</a></li>
             <li><a href = "registerWeb.php">註冊會員</a></li>
             <li><a href="loginWeb.php">登入會員</a></li>
             <li class="dropdown">
