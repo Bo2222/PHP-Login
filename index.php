@@ -1,3 +1,17 @@
+<?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    session_start();
+    include 'db_connect.php';
+    include 'user_info.php';
+
+    $user = null;
+    if (isset($_SESSION['user_id'])){
+        $user = getUserInfo((int)$_SESSION['user_id'], $conn);
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +29,7 @@
         }
         nav ul li {
             margin-right: 20px;
+            color: white;
         }
         nav ul li a {
             color: white;
@@ -64,9 +79,13 @@
     <nav>
         <ul>
             <li><a href="index.php">首頁</a></li>
-            <li><a href="adminWeb.php">管理者系統</a></li>
+            <?php
+                if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == 17){
+                    echo "<li><a href = 'adminWeb.php'>管理員系統</a></li>";
+                }
+            ?>
             <li><a href = "registerWeb.php">註冊會員</a></li>
-            <li><a href="loginWeb.php">登入會員</a></li>
+            <!--<li><a href="loginWeb.php">登入會員</a></li>-->
             <li class="dropdown">
                 <a href="#" class="dropbtn">修改資料</a>
                 <div class="dropdown-content">
@@ -74,9 +93,17 @@
                     <a href="edit_passwordWeb.php">修改密碼</a>
                 </div>
             </li>
-            <li><a href="logout.php">登出會員</a></li>
+            <!--<li><a href="logout.php">登出會員</a></li>-->
             <li><a href="orderWeb.php">預約項目</a></li>
             <li><a href="orderview.php">訂單瀏覽</a></li>
+            <li style="margin-left:auto;">
+            <?php if ($user): ?>
+                您好，<?php echo htmlspecialchars($user['username']); ?> | 
+                <a href="logout.php">登出</a>
+            <?php else: ?>
+                <a href="loginWeb.php">登入</a>
+            <?php endif; ?>
+            </li>
         </ul>
     </nav>
 </body>

@@ -72,14 +72,17 @@ if (!isset($_SESSION['user_id'])) {
     </style>
 </head>
 <body>
-
     <h2>會員資料修改</h2>
     <nav>
         <ul>
             <li><a href="index.php">首頁</a></li>
-            <li><a href="adminWeb.php">管理員系統</a></li>
+            <?php
+                if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == 17){
+                    echo "<li><a href = 'adminWeb.php'>管理員系統</a></li>";
+                }
+            ?>
             <li><a href = "registerWeb.php">註冊會員</a></li>
-            <li><a href="loginWeb.php">登入會員</a></li>
+            <!--<li><a href="loginWeb.php">登入會員</a></li>-->
             <li class="dropdown">
                 <a href="#" class="dropbtn">修改資料</a>
                 <div class="dropdown-content">
@@ -87,9 +90,17 @@ if (!isset($_SESSION['user_id'])) {
                     <a href="edit_passwordWeb.php">修改密碼</a>
                 </div>
             </li>
-            <li><a href="logout.php">登出會員</a></li>
+            <!--<li><a href="logout.php">登出會員</a></li>-->
             <li><a href="orderWeb.php">預約項目</a></li>
             <li><a href="orderview.php">訂單瀏覽</a></li>
+            <li style="margin-left:auto;">
+            <?php if ($user): ?>
+                您好，<?php echo htmlspecialchars($user['username']); ?> | 
+                <a href="logout.php">登出</a>
+            <?php else: ?>
+                <a href="loginWeb.php">登入</a>
+            <?php endif; ?>
+            </li>
         </ul>
     </nav>
     <form action = "edit_profile.php" method = "POST" id="profileForm">
@@ -109,6 +120,7 @@ if (!isset($_SESSION['user_id'])) {
         <input type = "text" name="address"><br>
 
         <label type = "text" name = "lineid">LineID：</label>
+        <input type ='text' name='lineid'><br>
 
         <!--<input type="hidden" name="csrf_token" value="<?php //echo $_SESSION['csrf_token'] = bin2hex(random_bytes(16)); ?>">-->
         <br>
