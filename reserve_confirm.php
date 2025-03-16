@@ -27,13 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $email = $conn->real_escape_string($_POST['email'] ?? '');
             $date = $conn->real_escape_string($_POST['date'] ?? '');
             $time = $conn->real_escape_string($_POST['time'] ?? '');
+            $notification_method = $conn->real_escape_string($_POST['notification_method']?? '');
+            $notify_before = $conn->real_escape_string($_POST['notify_before']?? '');
 
             //當下的日期時間
             $created_at = date('Y-m-d H:i:s');
 
             //將預約的資料存入資料庫appointments資料表
-            $stmt = $conn->prepare("INSERT INTO appointments(type, account, name, phone, email, date, time, created_at, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, '未完成')");
-            $stmt->bind_param("ssssssss", $type, $account, $name, $phone, $email, $date, $time, $created_at);
+            $stmt = $conn->prepare("INSERT INTO appointments(type, account, name, phone, email, date, time, created_at, status, notification_method, notify_before) VALUES (?, ?, ?, ?, ?, ?, ?, ?, '未完成', ?, ?)");
+            $stmt->bind_param("sssssssssi", $type, $account, $name, $phone, $email, $date, $time, $created_at, $notification_method, $notify_before);
 
             if($stmt->execute()){
                 echo "預約成功，3秒後跳轉至預約首頁";
