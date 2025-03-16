@@ -1,7 +1,12 @@
 <?php
-    session_start();
-    include 'db_connect.php';
-    include 'user_info.php';
+session_start();
+include 'db_connect.php';
+include 'user_info.php';
+
+$user = null;
+if (isset($_SESSION['user_id'])){
+    $user = getUserInfo((int)$_SESSION['user_id'], $conn);
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +30,7 @@
         }
         nav ul li {
             margin-right: 20px;
+            color: white;
         }
         nav ul li a {
             color: white;

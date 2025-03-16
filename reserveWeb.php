@@ -1,30 +1,35 @@
 <?php
-    session_start();
-    include 'db_connect.php';
-    include 'user_info.php';
+session_start();
+include 'db_connect.php';
+include 'user_info.php';
 
-    if (isset($_SESSION['user_id'])){
-        $type = $_GET['type'];                      //取得選擇的預約類型
-        $user_id = $_SESSION['user_id'];
-        $greeting = getGreeting($user_id, $conn);
-    }
-    else{
-        echo "<script>alert('請先登入會員'); window.location.href = 'loginWeb.php';</script>";
-    }
+if (isset($_SESSION['user_id'])){
+    $type = $_GET['type'];                      //取得選擇的預約類型
+    $user_id = $_SESSION['user_id'];
+    $greeting = getGreeting($user_id, $conn);
+}
+else{
+    echo "<script>alert('請先登入會員'); window.location.href = 'loginWeb.php';</script>";
+}
 
-    //獲取會員資料
-    $userInfo = getUserInfo($user_id, $conn);
+$user = null;
+if (isset($_SESSION['user_id'])){
+    $user = getUserInfo((int)$_SESSION['user_id'], $conn);
+}
 
-    if ($type === 'VR體驗'){
-        $typeText = 'VR體驗';
-    }
-    elseif($type ==='治療師諮詢'){
-        $typeText = '治療師諮詢';
-    }
-    else{
-        echo "無效的預約類型";
-        exit();
-    }
+//獲取會員資料
+$userInfo = getUserInfo($user_id, $conn);
+
+if ($type === 'VR體驗'){
+    $typeText = 'VR體驗';
+}
+elseif($type ==='治療師諮詢'){
+    $typeText = '治療師諮詢';
+}
+else{
+    echo "無效的預約類型";
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang = "en">
@@ -50,6 +55,7 @@
         }
         nav ul li {
             margin-right: 20px;
+            color: white;
         }
         nav ul li a {
             color: white;

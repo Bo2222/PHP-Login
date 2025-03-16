@@ -1,9 +1,16 @@
 <?php 
 session_start(); 
+include 'db_connect.php';
+include 'user_info.php';
 
 if (!isset($_SESSION['user_id'])) {
     echo "<script>alert('請先登入會員'); window.location.href = 'loginWeb.php';</script>";
     exit();
+}
+
+$user = null;
+if (isset($_SESSION['user_id'])){
+    $user = getUserInfo((int)$_SESSION['user_id'], $conn);
 }
 ?>
 <html>
@@ -22,6 +29,7 @@ if (!isset($_SESSION['user_id'])) {
             }
             nav ul li {
                 margin-right: 20px;
+                color: white;
             }
             nav ul li a {
                 color: white;
