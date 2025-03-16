@@ -13,8 +13,23 @@ function getGreeting($user_id, $conn){
 }
 
 function getUserInfo($user_id, $conn){
-    $sql = "SELECT * FROM member WHERE id = '$user_id'";
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM member WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    // 綁定參數（"i" 表示整數)
+    $stmt->bind_param("i", $user_id);
+
+    // 執行 SQL
+    if (!$stmt->execute()) {
+        die("Execute failed: " . $stmt->error);
+    }
+
+    // 取得結果
+    $result = $stmt->get_result();
 
     if($result->num_rows == 1){
         $row = $result->fetch_assoc();
@@ -23,5 +38,6 @@ function getUserInfo($user_id, $conn){
     else{
         return null;        //如果找不到會員資訊，返回null或適當的錯誤處理
     }
+    $conn->close();
 }
 ?>
