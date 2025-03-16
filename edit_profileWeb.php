@@ -77,7 +77,7 @@ if (!isset($_SESSION['user_id'])) {
     <nav>
         <ul>
             <li><a href="index.php">首頁</a></li>
-            <li><a href="adminWeb.php">管理者系統</a></li>
+            <li><a href="adminWeb.php">管理員系統</a></li>
             <li><a href = "registerWeb.php">註冊會員</a></li>
             <li><a href="loginWeb.php">登入會員</a></li>
             <li class="dropdown">
@@ -106,7 +106,9 @@ if (!isset($_SESSION['user_id'])) {
         <input type="text" name="mail"><br>
 
         <label>地址：</label>
-        <textarea name="address"></textarea><br>
+        <input type = "text" name="address"><br>
+
+        <label type = "text" name = "lineid">LineID：</label>
 
         <!--<input type="hidden" name="csrf_token" value="<?php //echo $_SESSION['csrf_token'] = bin2hex(random_bytes(16)); ?>">-->
         <br>

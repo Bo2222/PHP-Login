@@ -77,7 +77,7 @@ nav {
     <nav>
         <ul>
             <li><a href="index.php">首頁</a></li>
-            <li><a href="adminWeb.php">管理者系統</a></li>
+            <li><a href="adminWeb.php">管理員系統</a></li>
             <li><a href = "registerWeb.php">註冊會員</a></li>
             <li><a href="loginWeb.php">登入會員</a></li>
             <li class="dropdown">
@@ -103,6 +103,8 @@ nav {
         <input type = "email" name = "mail" required><br>
         <label>地址：</label>
         <input type = 'address' name = 'address' required><br>
+        <label>LineID:</label>
+        <input type = 'text' name = 'lineid' placeholder="選填"><br>
         <label>密碼：</label>
         <input type = "password" name = "password" required placeholder = "至少一個英文字母和一個數字，長度超過5"><br>
         <label>確認密碼：</label>

@@ -13,6 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
     $phone = $conn->real_escape_string(trim($_POST['phone'] ?? ''));
     $mail = $conn->real_escape_string(trim($_POST['mail'] ?? ''));
     $address = $conn->real_escape_string(trim($_POST['address'] ?? ''));
+    $lineid = $conn->real_escape_string(trim($_POST['lineid']?? ''));
     $raw_password = $_POST['password'] ?? '';                                 //密碼直接從$_POST獲得，未進行escape，之後要進行加密
     $confirm_password = $_POST['confirm_password'] ?? '';
 
@@ -87,8 +88,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
             echo "繼續debug吧你。<br>";
         }*/
         
-        $stmt = $conn->prepare("INSERT INTO member(account, username, nickname, phone, mail, address, hashed_password, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssss", $account, $username, $nickname, $phone, $mail, $address, $hashedPassword, $salt);
+        $stmt = $conn->prepare("INSERT INTO member(account, username, nickname, phone, mail, address, lineid, hashed_password, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssss", $account, $username, $nickname, $phone, $mail, $address, $lineid, $hashedPassword, $salt);
 
         if($stmt->execute()){
             echo "註冊成功，您的帳號為" . $account . "<br>";
