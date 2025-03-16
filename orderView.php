@@ -6,6 +6,22 @@ include 'user_info.php';
 $user = null;
 if (isset($_SESSION['user_id'])){
     $user = getUserInfo((int)$_SESSION['user_id'], $conn);
+
+    $user_id = $_SESSION['user_id'];
+    //使用userInfo.php中的函數獲取使用者資訊
+    $userInfo = getUserInfo($user_id, $conn);
+    $account = $userInfo['account'];
+
+    //檢查篩選狀態
+    $filter = "";
+    if(isset($_GET['status']) && $_GET['status'] != ""){
+        $status = $_GET['status'];
+        $filter = "AND status = '$status'";
+    }
+
+    //查詢預約資訊
+    $sql = "SELECT order_id, type, date, time, name, phone, status FROM appointments WHERE account = '$account' $filter ORDER BY date ASC, time ASC";
+    $result = $conn->query($sql);
 }
 ?>
 
@@ -73,6 +89,54 @@ if (isset($_SESSION['user_id'])){
         .dropdown:hover .dropbtn {
             background-color: #111;
         }
+        .container {
+                width: 80%;
+                margin: auto;
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+            .filter-links a {
+                margin-right: 15px;
+                text-decoration: none;
+                color: #007bff;
+                font-weight: bold;
+            }
+            .order-box {
+                padding: 15px;
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #fff;
+            }
+            .status-pending {
+                color: red;
+                font-weight: bold;
+            }
+            .status-completed {
+                color: green;
+                font-weight: bold;
+            }
+            .btn-group {
+                margin-top: 10px;
+            }
+            .btn {
+                padding: 8px 12px;
+                font-size: 14px;
+                border: none;
+                cursor: pointer;
+                border-radius: 5px;
+                margin-right: 10px;
+            }
+            .btn-cancel {
+                background-color: red;
+                color: white;
+            }
+            .btn-edit {
+                background-color: blue;
+                color: white;
+            }
     </style>
 </head>
 <body>
@@ -107,59 +171,49 @@ if (isset($_SESSION['user_id'])){
             </li>
         </ul>
     </nav>
+    <div class = "container">
+    <h2>我的訂單</h2>
+    <p class = "filter-links">
+        <a href="orderView.php">全部</a> | 
+        <a href="orderView.php?status=未完成">未完成</a> | 
+        <a href="orderView.php?status=已完成">已完成</a>
+    </p>
     <?php
-    if(isset($_SESSION['user_id'])){
-        $user_id = $_SESSION['user_id'];
-        //使用userInfo.php中的函數獲取使用者資訊
-        $userInfo = getUserInfo($user_id, $conn);
-        $account = $userInfo['account'];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                ?>
+                <div class="order-box">
+                    <p><strong>訂單編號：</strong><?php echo $row['order_id']; ?></p>
+                    <p><strong>預約類型：</strong><?php echo $row['type']; ?></p>
+                    <p><strong>預約日期：</strong><?php echo $row['date']; ?></p>
+                    <p><strong>預約時間：</strong><?php echo $row['time']; ?></p>
+                    <p><strong>預約姓名：</strong><?php echo $row['name']; ?></p>
+                    <p><strong>預約電話：</strong><?php echo $row['phone']; ?></p>
 
-        //檢查篩選狀態
-        $filter = "";
-        if(isset($_GET['status']) && $_GET['status'] != ""){
-            $status = $_GET['status'];
-            $filter = "AND status = '$status'";
-        }
+                    <?php if ($row['status'] === '未完成') { ?>
+                        <p class="status-pending"><strong>狀態：</strong>未完成</p>
+                        <div class="btn-group">
+                            <!-- 取消預約按鈕 -->
+                            <form action="cancel_reservation.php" method="post" style="display:inline;">
+                                <input type="hidden" name="order_id" value="<?php echo $row['order_id']; ?>">
+                                <button type="submit" class="btn btn-cancel">取消預約</button>
+                            </form>
 
-        //查詢預約資訊
-        $sql = "SELECT order_id, type, date, time, name, phone, status FROM appointments WHERE account = '$account' $filter ORDER BY date ASC, time ASC";
-        $result = $conn->query($sql);
-
-        echo "<h2>我的訂單</h2>";
-        echo "<p><a href = 'orderView.php'>全部</a> |<a href = 'orderView.php?status=未完成'>未完成</a> | <a href = 'orderView.php?status=已完成'>已完成</a></p>";
-
-        if ($result->num_rows > 0){
-            while ($row = $result->fetch_assoc()){
-                echo "<div>";
-                echo "<p><strong>訂單編號：</strong>". $row['order_id'] . "</p>";
-                echo "<p><strong>預約類型：</strong>". $row['type'] . "</p>";
-                echo "<p><strong>預約日期：</strong>". $row['date'] . "</p>";
-                echo "<p><strong>預約時間：</strong>". $row['time'] . "</p>";
-                echo "<p><strong>預約姓名：</strong>". $row['name'] . "</p>";
-                echo "<p><strong>預約電話：</strong>". $row['phone'] . "</p>";
-
-                //對未完成的預約顯示取消預約按鈕
-                if($row['status'] === '未完成'){
-                    echo "<p style = 'color:red'><strong>狀態：</strong>未完成</p>";
-                    echo "<form action = 'cancel_reservation.php' method = 'post'>";
-                    echo "<input type = 'hidden' name = 'order_id' value = '" . $row['order_id'] . "'>";
-                    echo "<button type = 'submit'>取消預約</button>";
-                    echo "</form>";
-                }
-                else{
-                    echo "<p style = 'color:green'><strong>狀態：</strong>已完成</p>";
-                }
-
-                echo "</div>";
+                            <!-- 修改預約按鈕 -->
+                            <form action="edit_reservation.php" method="post" style="display:inline;">
+                                <input type="hidden" name="order_id" value="<?php echo $row['order_id']; ?>">
+                                <button type="submit" class="btn btn-edit">修改預約</button>
+                            </form>
+                        </div>
+                    <?php } else { ?>
+                        <p class="status-completed"><strong>狀態：</strong>已完成</p>
+                    <?php } ?>
+                </div>
+                <?php
             }
-        }
-        else{
+        } else {
             echo "<p>沒有任何預約項目</p>";
         }
-    }
-    else{
-        echo "<script>alert('請先登入會員'); window.location.href = 'loginWeb.php';</script>";
-    }
-    ?>
+        ?>
 </body>
 </html>
