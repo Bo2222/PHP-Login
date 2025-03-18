@@ -9,17 +9,15 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['order_id'])){
     
     if($conn->query($sql) === TRUE){
         echo "訂單已成功取消。";
+        header("refresh:3;url = 'orderView.php'");
+        exit();
     }
     else{
         echo "取消訂單失敗：" . $conn->error;
+        header("refresh:3;url = 'orderView.php'");
+        exit();
     }
 }
-
-echo "<br>";
-echo "<br>";
-echo "<a href = 'orderView.php'>
-        <button>查看我的預約訂單</button>
-    </a>";
 
 $conn->close();
 ?>
