@@ -15,10 +15,8 @@ function getGreeting($user_id, $conn){
 }
 
 function getUserInfo($user_id, $conn){
-    $stmt = $conn->prepare("SELECT * FROM member WHERE id = ?");
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $stmt = $stmt->get_result();
+    $sql = "SELECT * FROM member WHERE id = ?";
+    $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
