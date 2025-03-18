@@ -98,8 +98,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
     }
 
     if(empty($error_message)){
-        $stmt = $conn-> prepare("UPDATE member SET username = ?, nickname = ?, phone = ?, mail = ?, address = ? lineid = ? WHERE id = '$user_id'");
-        $stmt->bind_param("sssss", $username, $nickname, $phone, $mail, $address, $lineid);
+        $stmt = $conn-> prepare("UPDATE member SET username = ?, nickname = ?, phone = ?, mail = ?, address = ? lineid = ? WHERE id = ?");
+        $stmt->bind_param("sssssi", $username, $nickname, $phone, $mail, $address, $lineid, $user_id);
 
         if($stmt->execute()){
             echo "更新成功。將為您跳轉到首頁。<br>";

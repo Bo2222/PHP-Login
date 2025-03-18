@@ -12,8 +12,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){           //確保請求是POST，處�
     $account = $conn->real_escape_string(trim($_POST['account'] ?? ''));
     $password = $conn->real_escape_string(trim($_POST['password'] ?? ''));
 
-    $sql = "SELECT * FROM member WHERE account = '$account'";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM member WHERE account = ?");
+    $stmt->bind_param("s", $account);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if($result->num_rows == 1){
         $row = $result->fetch_assoc();

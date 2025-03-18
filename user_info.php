@@ -1,7 +1,9 @@
 <?php
 function getGreeting($user_id, $conn){
-    $sql = "SELECT * FROM member WHERE id = '$user_id'";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM member WHERE id = ?");
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows == 1){
         $row = $result->fetch_assoc();
@@ -13,8 +15,10 @@ function getGreeting($user_id, $conn){
 }
 
 function getUserInfo($user_id, $conn){
-    $sql = "SELECT * FROM member WHERE id = ?";
-    $stmt = $conn->prepare($sql);
+    $stmt = $conn->prepare("SELECT * FROM member WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt = $stmt->get_result();
 
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);

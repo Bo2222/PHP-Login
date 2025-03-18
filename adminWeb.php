@@ -104,7 +104,7 @@ if (isset($_SESSION['user_id'])){
     </nav>
     <?php
     if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == 17){
-        $action = isset($_GET['action']) ? $_GET['action'] : 'show_today';
+        $action = isset($_GET['action']) ? $_GET['action'] : 'show_all';
       
         //顯示連結
         //echo '<h2>管理者頁面</h2>';
@@ -114,8 +114,10 @@ if (isset($_SESSION['user_id'])){
         if($action === 'show_today'){
             $current_date = date('Y-m-d');
 
-            $sql = "SELECT order_id, type, date, time, name, phone, created_at, status FROM appointments WHERE date = '$current_date' ORDER BY time ASC, status DESC";
-            $result = $conn->query($sql);
+            $stmt = $conn->prepare("SELECT order_id, type, date, time, name, phone, created_at, status FROM appointments WHERE date = ? ORDER BY time ASC, status DESC");
+            $stmt->bind_param('s', $current_date);
+            $Stmt->execute();
+            $result = $stmt->get_result();
         
             if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()){
@@ -155,8 +157,9 @@ if (isset($_SESSION['user_id'])){
             }
         }
         elseif($action === 'show_all'){
-            $sql = "SELECT order_id, type, date, time, name, phone, created_at, status FROm appointments ORDER BY date ASC, time ASC";
-            $result = $conn->query($sql);
+            $stmt = $conn->prepare("SELECT order_id, type, date, time, name, phone, created_at, status FROM appointments ORDER BY date ASC, time ASC");
+            $stmt->execute();
+            $result = $stmt->get_result();
 
             if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()){

@@ -44,8 +44,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $new_hashed_password = hash('sha256', $new_password . $new_salt);
     
             // 更新新密碼與 salt
-            $stmt = $conn->prepare("UPDATE member SET hashed_password = ?, salt = ? WHERE id = '$user_id'");
-            $stmt->bind_param("ss", $new_hashed_password, $new_salt);
+            $stmt = $conn->prepare("UPDATE member SET hashed_password = ?, salt = ? WHERE id = ?");
+            $stmt->bind_param("ssi", $new_hashed_password, $new_salt, $user_id);
             if ($stmt->execute()) {
                 echo "密碼更新成功，將為您跳轉回首頁。<br>";
                 header("refresh:3;url = index.php");

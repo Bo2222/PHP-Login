@@ -14,8 +14,10 @@ if(!isset($_SESSION['user_id'])){
 
 $user_id = $_SESSION['user_id'];
 
-$sql = "SELECT * FROM member WHERE id = '$user_id'";
-$result = $conn->query($sql);
+$stmt = $conn->prepare("SELECT * FROM member WHERE id = ?");
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if($result->num_rows == 1){
     $row = $result->fetch_assoc();

@@ -20,9 +20,13 @@ if (isset($_SESSION['user_id'])){
     }
 
     //查詢預約資訊
-    $sql = "SELECT order_id, type, date, time, name, phone, status FROM appointments WHERE account = '$account' $filter ORDER BY date ASC, time ASC";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT order_id, type, date, time, name, phone, status FROM appointments WHERE account = ? $filter ORDER BY date ASC, time ASC");
+    $stmt->bind_param('s', $account);
+    $stmt->execute();
+    $result = $stmt->get_result();
 }
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
